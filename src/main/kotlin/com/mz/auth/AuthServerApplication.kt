@@ -9,5 +9,5 @@ open class AuthServerApplication
 fun main(args: Array<String>) {
 	//runApplication<AuthServerApplication>(*args)
 	SpringApplication.run(AuthServerApplication::class.java, *args)
-	println("Starting this Kotlin application")
+	println("Starting this Kotlin application - AuthServerApplication")
 }

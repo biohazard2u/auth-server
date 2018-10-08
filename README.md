@@ -1,4 +1,4 @@
-# OAuth 2.0 with Kotlin
+# OAuth 2.0 Resource Server with Kotlin
 This is a personal project to practice with the following tecnologies:
  - OAuth 2.0
  - Open ID Connect

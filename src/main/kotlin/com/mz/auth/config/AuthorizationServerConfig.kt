@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
 	override fun configure(clients: ClientDetailsServiceConfigurer?) {
-		clients?.inMemory()?.withClient("javainuse")?.secret("secret")?.authorizedGrantTypes("authorization_code")
+		clients?.inMemory()?.withClient("client123")?.secret("secret")?.authorizedGrantTypes("authorization_code")
 				?.scopes("read")?.authorities("CLIENT");
 	}
 }
