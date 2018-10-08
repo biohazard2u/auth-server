@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("user")
 class UserController(val userService: UserService) {
 	
-	@GetMapping
+	@GetMapping("/getUsersList")
 	fun getUsersList(): List<User> {
 		return userService.getUsersList()
 	}

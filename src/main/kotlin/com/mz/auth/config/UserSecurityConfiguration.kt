@@ -1,22 +1,37 @@
 package com.mz.auth.config
 
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
 @Configuration
 @EnableWebSecurity
-class UserSecurityConfiguration : WebSecurityConfigurerAdapter {
-	
+open class UserSecurityConfiguration : WebSecurityConfigurerAdapter() {
+
 	override fun configure(auth: AuthenticationManagerBuilder?) {
-		super.configure(auth)
+		
+//		// NOT SECURE so it is not recommended for production environments
+//		auth?.inMemoryAuthentication()
+//				?.passwordEncoder(NoOpPasswordEncoder.getInstance())
+//				?.withUser("admin")?.password("admin")?.roles("ADMIN");
+
+		// NOT SECURE so it is not recommended for production environments
+		auth?.inMemoryAuthentication()?.withUser("admin")?.password("{noop}admin")
+				?.authorities("ROLE_ADMIN")
 	}
 
 	override fun configure(web: WebSecurity?) {
-		super.configure(web)
+		web?.ignoring()?.antMatchers("/resources/**")
 	}
 
 	override fun configure(http: HttpSecurity?) {
-		super.configure(http)
+		http!!.authorizeRequests().antMatchers("/").permitAll().antMatchers("/user/getUsersList")
+				.hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
+				.permitAll().and().logout().permitAll();
+
+		http.csrf().disable();
 	}
 }
