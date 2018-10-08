@@ -7,12 +7,16 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
+/**
+ * This configuration specifies which urls are to be intercepted,
+ *	and are to be accessed by which users and having which roles.
+ */
 @Configuration
 @EnableWebSecurity
 open class UserSecurityConfiguration : WebSecurityConfigurerAdapter() {
 
 	override fun configure(auth: AuthenticationManagerBuilder?) {
-		
+
 //		// NOT SECURE so it is not recommended for production environments
 //		auth?.inMemoryAuthentication()
 //				?.passwordEncoder(NoOpPasswordEncoder.getInstance())
@@ -28,7 +32,7 @@ open class UserSecurityConfiguration : WebSecurityConfigurerAdapter() {
 	}
 
 	override fun configure(http: HttpSecurity?) {
-		http!!.authorizeRequests().antMatchers("/").permitAll().antMatchers("/user/getUsersList")
+		http!!.authorizeRequests().antMatchers("/").permitAll().antMatchers("/user/getUsers")
 				.hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
 				.permitAll().and().logout().permitAll();
 
