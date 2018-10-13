@@ -15,6 +15,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 open class UserSecurityConfiguration : WebSecurityConfigurerAdapter() {
 
+	// ADMIN role required To access URL /user/getUsers 
+	override fun configure(http: HttpSecurity?) {
+		http!!.authorizeRequests()
+				.antMatchers("/").permitAll()
+				.antMatchers("/user/getUsers")
+					.hasAnyRole("ADMIN")
+					.anyRequest().authenticated()
+				.and().formLogin().permitAll()
+				.and().logout().permitAll();
+		// Cross Site Request Forgery (CSRF, pronounced "sea surf")
+		http.csrf().disable();
+	}
+	
+	// We create an ADMIN role with following credentials
 	override fun configure(auth: AuthenticationManagerBuilder?) {
 
 //		// NOT SECURE so it is not recommended for production environments
@@ -25,17 +39,5 @@ open class UserSecurityConfiguration : WebSecurityConfigurerAdapter() {
 		// NOT SECURE so it is not recommended for production environments
 		auth?.inMemoryAuthentication()?.withUser("admin")?.password("{noop}admin")
 				?.authorities("ROLE_ADMIN")
-	}
-
-	override fun configure(web: WebSecurity?) {
-		web?.ignoring()?.antMatchers("/resources/**")
-	}
-
-	override fun configure(http: HttpSecurity?) {
-		http!!.authorizeRequests().antMatchers("/").permitAll().antMatchers("/user/getUsers")
-				.hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
-				.permitAll().and().logout().permitAll();
-
-		http.csrf().disable();
 	}
 }

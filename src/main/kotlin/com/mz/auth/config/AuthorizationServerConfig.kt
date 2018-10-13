@@ -15,8 +15,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 open class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
 	/**
-	 * The configure method here injects the Spring Security authentication manager.
 	 * Using in memory client service we setup the clients that can access the server.
+	 * Thus, if we get a request with that client+secret+grantType+scope+authority
+	 *			-> resource owner may allow to share data with CLIENT application
 	 */
 	override fun configure(clients: ClientDetailsServiceConfigurer?) {
 		clients?.inMemory()?.withClient("client123")?.secret("secret")?.authorizedGrantTypes("authorization_code")
